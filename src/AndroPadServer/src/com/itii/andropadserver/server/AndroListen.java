@@ -44,9 +44,7 @@ public class AndroListen extends Thread {
                     //Update the gamepad
                     AndroButton button = (AndroButton)obj;
                     GamepadManager.getInstance().getPad(m_gamepadIndex).getButton(button.getButton()).setState(button.getState());
-                } else {
-                    System.out.println("Not a good object");
-                }
+                } 
             } catch (Exception ex) {
                 //Close socket
                 ex.printStackTrace();
@@ -66,7 +64,7 @@ public class AndroListen extends Thread {
             GamepadManager.getInstance().getPad(m_gamepadIndex).setConnected(false);
             m_inStream.close();
             m_sc.close();
-            System.out.println("Deconnection of Gamepad " + m_gamepadIndex);
+           OutputController.writeLine("Deconnection of Gamepad " + m_gamepadIndex);
         } catch (BluetoothStateException ex) {
             Logger.getLogger(AndroListen.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

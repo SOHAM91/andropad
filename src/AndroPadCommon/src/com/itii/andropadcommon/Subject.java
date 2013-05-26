@@ -12,7 +12,6 @@ import java.util.ArrayList;
  */
 public interface Subject {
     
-    ArrayList<Observer> m_observerList = new ArrayList<Observer>();
    
     public void register(Observer obs);
     public void unregister(Observer obs);

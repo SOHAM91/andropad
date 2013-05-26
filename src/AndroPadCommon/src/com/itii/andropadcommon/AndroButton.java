@@ -5,6 +5,7 @@
 package com.itii.andropadcommon;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -39,8 +40,7 @@ public class AndroButton implements Serializable, Subject {
     }
     
     public void setState(State state) {
-        if(m_state != state) {
-            System.out.println("Change state");
+        if(m_state != state || System.currentTimeMillis() - m_startTime > 500) {
             m_state = state;
             m_startTime = System.currentTimeMillis();
             for(Observer obs : m_observerList) {
@@ -60,7 +60,6 @@ public class AndroButton implements Serializable, Subject {
     @Override
     public void register(Observer obs) {
         if(!m_observerList.contains(obs)) {
-            System.out.println("Register an obs");
             m_observerList.add(obs);
         }
     }
@@ -76,4 +75,7 @@ public class AndroButton implements Serializable, Subject {
     private Mapping m_mapping;
     private State m_state;
     private long m_startTime;
+    
+    ArrayList<Observer> m_observerList = new ArrayList<Observer>();
+
 }

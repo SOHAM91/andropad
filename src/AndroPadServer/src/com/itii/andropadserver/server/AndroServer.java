@@ -5,6 +5,8 @@
 package com.itii.andropadserver.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.bluetooth.BluetoothStateException;
@@ -25,6 +27,8 @@ public class AndroServer extends Thread {
     private String m_connectionString;
     private boolean m_run;
     
+    private HashMap<Integer,AndroListen> m_listeners = new HashMap<Integer,AndroListen>();
+    	
     public AndroServer() throws BluetoothStateException, IOException {
           m_uuid = new UUID("B2B8428C00014560ADB5C983CEDAD79E", false);
           //Connexion URL
@@ -35,20 +39,23 @@ public class AndroServer extends Thread {
           m_run = true;
     }
     
-    public void run() {
+    @Override
+	public void run() {
         try {
             //open server url
+            OutputController.writeLine("Server Started. Waiting for clients to connect...");
             StreamConnectionNotifier streamConnNotifier = (StreamConnectionNotifier)Connector.open( m_connectionString );
             //Wait for client connection
             while(m_run) {
                 if(GamepadManager.getInstance().getNbGamepad() > GamepadManager.getInstance().getNbActive()) {
-                     System.out.println("\nServer Started. Waiting for clients to connect...");
-                     System.out.println("Nb players connected :" + GamepadManager.getInstance().getNbActive());
+                    OutputController.writeLine("Nb players connected :" + GamepadManager.getInstance().getNbActive());
+                    
                      StreamConnection connection=streamConnNotifier.acceptAndOpen();
                      //Create thread to communicate with the client, and pass it to the GamepadManager
                      int gamepadIndex = GamepadManager.getInstance().getFirstAvailable();
                      if(gamepadIndex > -1) {
                          AndroListen al = new AndroListen(connection,gamepadIndex);
+                         m_listeners.put(gamepadIndex,al);
                          al.start();
                      } else {
                          connection.close();
@@ -56,7 +63,7 @@ public class AndroServer extends Thread {
                      
                 } else {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(AndroServer.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -72,6 +79,15 @@ public class AndroServer extends Thread {
     }
 
     public void setRun(boolean b) {
+        if(!b) {
+            for(AndroListen al : m_listeners.values()) {
+                if(al != null) { 
+                    al.close();
+                }
+            }
+        }
         m_run = b;
     }
+    
+    
 }

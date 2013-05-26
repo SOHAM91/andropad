@@ -23,7 +23,8 @@ public class GamepadManager {
     private ArrayList<AndroGamepad> m_list = new ArrayList<AndroGamepad>();
     private boolean m_run = false;
     private int m_nbGamepad = 0;
-        
+    private AndroServer m_androServer;
+    
     public static synchronized GamepadManager getInstance(int n) throws BluetoothStateException, IOException {
          if(m_gm == null) {
              m_gm = new GamepadManager(n);
@@ -86,7 +87,7 @@ public class GamepadManager {
         if(m_list.size() > gamepadIndex) {
             for(AndroButton ab : m_list.get(gamepadIndex).getButtonsList().values()) {
                 ab.register(obs);
-            }
+             }
         }
     }
     
@@ -101,9 +102,15 @@ public class GamepadManager {
     public void start() throws BluetoothStateException, IOException {
         if(!m_run) {
             //Launch the connection manager 
-            AndroServer as = new AndroServer();
-            as.start();
+            m_androServer = new AndroServer();
+            m_androServer.start();
         }
     }
+    
+    public void stop() {
+         m_androServer.setRun(false);
+        OutputController.writeLine("Arrêt du serveur");
+    }
+    
 
 }
