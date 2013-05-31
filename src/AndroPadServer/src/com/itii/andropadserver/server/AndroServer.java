@@ -79,6 +79,7 @@ public class AndroServer extends Thread {
     }
 
     public void setRun(boolean b) {
+        
         if(!b) {
             for(AndroListen al : m_listeners.values()) {
                 if(al != null) { 
@@ -87,6 +88,12 @@ public class AndroServer extends Thread {
             }
         }
         m_run = b;
+        try {
+            m_local.setDiscoverable(DiscoveryAgent.NOT_DISCOVERABLE);
+        } catch (BluetoothStateException ex) {
+            Logger.getLogger(AndroServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     
     
