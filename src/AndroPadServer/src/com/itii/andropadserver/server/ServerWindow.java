@@ -5,6 +5,7 @@
 package com.itii.andropadserver.server;
 
 import com.itii.andropadcommon.Observer;
+import com.itii.andropadcommon.Vibration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -132,8 +133,7 @@ public class ServerWindow extends javax.swing.JFrame {
             m_gamepadManager.observeGamepad(1,  m_observerList.get(1));
             m_gamepadManager.start();
             StopButton.setEnabled(true);
-            StartButton.setEnabled(false);
-           
+            StartButton.setEnabled(false); 
         } catch (BluetoothStateException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {

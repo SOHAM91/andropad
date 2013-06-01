@@ -112,5 +112,11 @@ public class GamepadManager {
         OutputController.writeLine("Arrêt du serveur");
     }
     
+    public void sendObject(int _index, Object _obj) {
+        if(m_androServer != null && m_androServer.isAlive()) {
+            m_androServer.sendObject(_index, _obj);
+        }
+    }
+    
 
 }

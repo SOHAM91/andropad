@@ -22,7 +22,7 @@ public class ObserverThread extends Thread implements Observer {
     
     
     private int m_gamepadIndex = -1;
-    private int m_time = 100;
+    private int m_time = 1000;
     private Translator m_translator = new Translator();
     private Robot m_robot = new Robot();
     private long m_lastTime;

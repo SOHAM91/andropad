@@ -143,7 +143,7 @@ public class Pad implements Comparator<Button>{
 			switch(m_state)
 			{
 			case CONNECTED:
-				state = "Connected";
+				state = "Connected as " + m_playerName;
 				break;
 				
 			case DISCONNECTED:
@@ -302,6 +302,10 @@ public class Pad implements Comparator<Button>{
 		return m_mode == Mode.EDITING || m_state == State.CONNECTED;
 	}
 	
+	public void setPlayerName(String s) {
+		m_playerName = s;
+	}
+	
 	private Context m_context;
 	private String m_path;
 	private String m_name;
@@ -310,7 +314,7 @@ public class Pad implements Comparator<Button>{
 	private State m_state;
 	private SVG[] m_svg;
 	private ConnectThread m_connectThread;
-	
+	private String m_playerName = "Player";
 	
 	
 	

@@ -4,6 +4,7 @@
  */
 package com.itii.andropadserver.server;
 
+import com.itii.andropadcommon.Player;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +29,8 @@ public class AndroServer extends Thread {
     private boolean m_run;
     
     private HashMap<Integer,AndroListen> m_listeners = new HashMap<Integer,AndroListen>();
-    	
+    private HashMap<Integer,AndroSender> m_senders = new HashMap<Integer,AndroSender>();
+    
     public AndroServer() throws BluetoothStateException, IOException {
           m_uuid = new UUID("B2B8428C00014560ADB5C983CEDAD79E", false);
           //Connexion URL
@@ -55,8 +57,11 @@ public class AndroServer extends Thread {
                      int gamepadIndex = GamepadManager.getInstance().getFirstAvailable();
                      if(gamepadIndex > -1) {
                          AndroListen al = new AndroListen(connection,gamepadIndex);
+                         AndroSender as = new AndroSender(connection,gamepadIndex);
                          m_listeners.put(gamepadIndex,al);
+                         m_senders.put(gamepadIndex,as);
                          al.start();
+                         as.start();
                      } else {
                          connection.close();
                      }
@@ -86,6 +91,11 @@ public class AndroServer extends Thread {
                     al.close();
                 }
             }
+            for(AndroSender as : m_senders.values()) {
+                if(as != null) {
+                    as.close();
+                }
+            }
         }
         m_run = b;
         try {
@@ -94,6 +104,12 @@ public class AndroServer extends Thread {
             Logger.getLogger(AndroServer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public void sendObject(int _index, Object _obj) {
+        if(m_senders.containsKey(_index)) {
+            m_senders.get(_index).sendObject(_obj);
+        }
     }
     
     

@@ -75,7 +75,7 @@ public class GamingSurfaceView extends SurfaceView implements
 		return true;
 	}
 	
-	private void requestRender()
+	public void requestRender()
 	{
 		Canvas canvas = this.getHolder().lockCanvas();
 		if(canvas == null)
@@ -100,6 +100,10 @@ public class GamingSurfaceView extends SurfaceView implements
 		m_pad.setState(state);
 	}
 
+	public Pad getPad() {
+		return m_pad;
+	}
+	
 	private Pad m_pad;
 
 

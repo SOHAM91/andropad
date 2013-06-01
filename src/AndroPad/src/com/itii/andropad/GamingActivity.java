@@ -32,7 +32,7 @@ public class GamingActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		m_connectThread = new ConnectThread(m_device,getApplicationContext());
 		
@@ -43,8 +43,8 @@ public class GamingActivity extends Activity {
 	}
 
 	private void connectToDevice() {
-		
         m_connectThread.run();
+		m_connectThread.setGamingSurface(m_surfaceView);
         if(m_connectThread.getSocket().isConnected()) {
         	m_surfaceView.setPadState(Pad.State.CONNECTED);
         } else {

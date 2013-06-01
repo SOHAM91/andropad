@@ -5,6 +5,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
+import com.itii.andropad.components.GamingSurfaceView;
+import com.itii.andropad.pad.Pad;
+
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -15,23 +18,29 @@ import android.util.Log;
 
 
 public class ConnectThread extends Thread {
-    private final BluetoothSocket m_Socket;
     
+	private final BluetoothSocket m_socket;
+    private ListenerThread m_listenerThread;
+	private Context m_context;
+	private GamingSurfaceView m_gamingSurface;
+	
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	public ConnectThread(BluetoothDevice device, Context ctx) {
+    
+	public ConnectThread(BluetoothDevice _device, Context _context) {
         // Use a temporary object that is later assigned to mmSocket,
         // because mmSocket is final
         BluetoothSocket tmp = null;
- 
+        m_context = _context;
+        
         // Get a BluetoothSocket to connect with the given BluetoothDevice
         try {
             // MY_UUID is the app's UUID string, also used by the server code
-        	tmp = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("B2B8428C-0001-4560-ADB5-C983CEDAD79E"));
-           // tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("B2B8428C-0001-4560-ADB5-C983CEDAD79E"));
+        	tmp = _device.createInsecureRfcommSocketToServiceRecord(UUID.fromString("B2B8428C-0001-4560-ADB5-C983CEDAD79E"));
+        	// tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("B2B8428C-0001-4560-ADB5-C983CEDAD79E"));
         } catch (IOException e) { 
         	e.printStackTrace();
         }
-        m_Socket = tmp;
+        m_socket = tmp;
     }
  
 	public void run() {
@@ -40,11 +49,14 @@ public class ConnectThread extends Thread {
  
         try {
             // Connect using the socket (blocking until connection or Exception)
-            m_Socket.connect();
+        	m_socket.connect();
+            //Create a listener thread using the socket
+            m_listenerThread = new ListenerThread(m_socket, m_context);
+            m_listenerThread.start();
         } catch (IOException connectException) {
             Log.e("Connect Exception", connectException.getMessage());
             try {
-                m_Socket.close();
+            	m_socket.close();
             } catch (IOException closeException) {
             	Log.e("Close Exception", connectException.getMessage());
             }
@@ -53,20 +65,28 @@ public class ConnectThread extends Thread {
  
     public void disconnect() {
         try {
-            m_Socket.close();
+        	m_listenerThread.setRun(false);
+        	m_socket.close();
         } catch (IOException e) { 
         	e.printStackTrace();
         }
     }
     
     public void sendObject(Object obj) throws IOException {
-    	 OutputStream mmOutStream = m_Socket.getOutputStream();
+    	 OutputStream mmOutStream = m_socket.getOutputStream();
          ObjectOutputStream out = new ObjectOutputStream( mmOutStream );
          out.writeObject(obj);
     }
     
     public BluetoothSocket getSocket() {
-    	return m_Socket;
+    	return m_socket;
+    }
+    
+    public void setGamingSurface(GamingSurfaceView _view) {
+    	m_gamingSurface = _view;
+    	if(m_listenerThread != null && m_listenerThread.isAlive()) {
+    		m_listenerThread.setGamingSurface(m_gamingSurface);
+    	}
     }
     
 }

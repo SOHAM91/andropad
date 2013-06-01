@@ -25,6 +25,7 @@ public class AndroListen extends Thread {
     private boolean m_run = false;
     private int m_gamepadIndex = 0;
     private ObjectInputStream m_ios = null;
+    
     public AndroListen(StreamConnection _sc, int _index) throws IOException {
         m_sc = _sc;
         m_inStream = m_sc.openInputStream();
