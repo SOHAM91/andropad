@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * AndroPad Project - ITII CNAM Alsace - Juin 2013
+ * Fabrice Latterner - Clement Troesch
  */
+
 package com.itii.andropadcommon;
 
-import java.util.ArrayList;
-
-/**
- *
- * @author Coralie
- */
 public interface Subject {
-    
-   
-    public void register(Observer obs);
-    public void unregister(Observer obs);
-    
+
+	public void register(Observer obs);
+
+	public void unregister(Observer obs);
+
 }

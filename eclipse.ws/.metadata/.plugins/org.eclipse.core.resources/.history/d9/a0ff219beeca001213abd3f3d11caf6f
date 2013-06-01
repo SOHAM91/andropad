@@ -1,0 +1,18 @@
+/**
+ * AndroPad Project - ITII CNAM Alsace - Juin 2013
+ * Fabrice Latterner - Clement Troesch
+ */
+
+package com.itii.andropadcommon;
+
+/**
+ * 
+ * @author Coralie
+ */
+public interface Subject {
+
+	public void register(Observer obs);
+
+	public void unregister(Observer obs);
+
+}

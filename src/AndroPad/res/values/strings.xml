@@ -48,5 +48,7 @@
     <string name="title_activity_pad_settings">PadSettingsActivity</string>
     
     <string name="lbl_searching">Recherche en cours...</string>
+    
+    <string name="img_description_itii_logo">ITII Logo</string>
 
 </resources>

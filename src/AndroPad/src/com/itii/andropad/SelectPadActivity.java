@@ -1,16 +1,16 @@
+/**
+ * AndroPad Project - ITII CNAM Alsace - Juin 2013
+ * Fabrice Latterner - Clement Troesch
+ */
+
 package com.itii.andropad;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
-import android.util.Log;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -41,16 +41,15 @@ public class SelectPadActivity extends Activity implements OnItemClickListener,
 
 		Button btn = (Button) findViewById(R.id.btn_create_pad);
 		btn.setOnClickListener(this);
-		
+
 		TextView text = (TextView) findViewById(R.id.txt_create_pad_name);
-		
-		if("gaming".equals(m_context))
-		{
+
+		if ("gaming".equals(m_context)) {
 			btn.setVisibility(View.GONE);
 			text.setVisibility(View.GONE);
-			
+
 		}
-		
+
 		list.requestFocus();
 
 	}
@@ -66,7 +65,7 @@ public class SelectPadActivity extends Activity implements OnItemClickListener,
 		m_fileList = dirFile.listFiles();
 		for (File file : m_fileList) {
 			String name = file.getName();
-			m_adapter.add(name.substring(0,name.indexOf(".xml")));
+			m_adapter.add(name.substring(0, name.indexOf(".xml")));
 		}
 
 	}
@@ -79,14 +78,13 @@ public class SelectPadActivity extends Activity implements OnItemClickListener,
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		TextView text = (TextView) findViewById(R.id.txt_create_pad_name);
 
 		if (!text.getText().toString().isEmpty()) {
 			this.selectPad(text.getText() + ".xml");
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		this.displayPads();
@@ -94,7 +92,7 @@ public class SelectPadActivity extends Activity implements OnItemClickListener,
 	}
 
 	private void selectPad(String name) {
-		
+
 		Intent intent = null;
 		if (m_context.equals("gaming")) {
 			intent = new Intent(this, SelectDeviceActivity.class);

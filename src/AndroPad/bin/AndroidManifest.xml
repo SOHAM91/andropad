@@ -54,6 +54,7 @@
         </activity>
         <activity
             android:name="com.itii.andropad.AboutActivity"
+            android:screenOrientation="sensorPortrait"
             android:label="@string/title_activity_about" >
         </activity>
         <activity

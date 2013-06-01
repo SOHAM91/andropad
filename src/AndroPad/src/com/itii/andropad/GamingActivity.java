@@ -1,24 +1,23 @@
+/**
+ * AndroPad Project - ITII CNAM Alsace - Juin 2013
+ * Fabrice Latterner - Clement Troesch
+ */
+
 package com.itii.andropad;
 
-import com.itii.andropad.components.GamingSurfaceView;
-import com.itii.andropad.pad.Pad;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.itii.andropad.bluetooth.ConnectThread;
+import com.itii.andropad.components.GamingSurfaceView;
+import com.itii.andropad.pad.Pad;
 
 public class GamingActivity extends Activity {
 
@@ -32,10 +31,10 @@ public class GamingActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
-		m_connectThread = new ConnectThread(m_device,getApplicationContext());
-		
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+		m_connectThread = new ConnectThread(m_device, getApplicationContext());
+
 		m_surfaceView = new GamingSurfaceView(this, selectedPad);
 		setContentView(m_surfaceView);
 
@@ -43,14 +42,16 @@ public class GamingActivity extends Activity {
 	}
 
 	private void connectToDevice() {
-        m_connectThread.run();
+		m_connectThread.run();
 		m_connectThread.setGamingSurface(m_surfaceView);
-        if(m_connectThread.getSocket().isConnected()) {
-        	m_surfaceView.setPadState(Pad.State.CONNECTED);
-        } else {
-        	m_surfaceView.setPadState(Pad.State.ERROR);
-        	Toast.makeText(this.getApplicationContext(),"Impossible de se connecter au serveur.",Toast.LENGTH_LONG).show();
-        }
+		if (m_connectThread.getSocket().isConnected()) {
+			m_surfaceView.setPadState(Pad.State.CONNECTED);
+		} else {
+			m_surfaceView.setPadState(Pad.State.ERROR);
+			Toast.makeText(this.getApplicationContext(),
+					"Impossible de se connecter au serveur.", Toast.LENGTH_LONG)
+					.show();
+		}
 
 	}
 
@@ -80,21 +81,19 @@ public class GamingActivity extends Activity {
 								finish();
 							}
 
-						})
-				.setNegativeButton("Non",null).setCancelable(true).show();
+						}).setNegativeButton("Non", null).setCancelable(true)
+				.show();
 
 	}
-	
-	public ConnectThread getConnectThread()
-	{
+
+	public ConnectThread getConnectThread() {
 		return m_connectThread;
 	}
 
 	private GamingSurfaceView m_surfaceView;
-	
- 	private ConnectThread m_connectThread;
- 	
- 	private BluetoothDevice m_device;
- 	
+
+	private ConnectThread m_connectThread;
+
+	private BluetoothDevice m_device;
 
 }

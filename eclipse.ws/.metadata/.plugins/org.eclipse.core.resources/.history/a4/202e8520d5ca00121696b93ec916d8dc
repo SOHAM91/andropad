@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.itii.andropad"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+   
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+  	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+  	<uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ap_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/MainTheme" >
+        
+        <activity
+            android:name="com.itii.andropad.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.itii.andropad.SelectPadActivity"
+            android:label="@string/title_activity_select_pad" >
+        </activity>
+        <activity
+            android:name="com.itii.andropad.SelectDeviceActivity"
+            android:label="@string/title_activity_select_device" >
+        </activity>
+        <activity
+            android:name="com.itii.andropad.GamingActivity"
+            android:label="@string/title_activity_gaming"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PadTheme" >
+        </activity>
+        <activity
+            android:name="com.itii.andropad.EditingActivity"
+            android:label="@string/title_activity_editing"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/PadTheme" >
+        </activity>
+        <activity
+            android:name="com.itii.andropad.EditButtonActivity"
+            android:label="@string/title_activity_edit_button"
+            android:theme="@style/DialogTheme" >
+        </activity>
+        <activity
+            android:name="com.itii.andropad.AboutActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_about" >
+        </activity>
+        <activity
+            android:name="com.itii.andropad.PadSettingsActivity"
+            android:label="@string/title_activity_pad_settings"
+            android:theme="@style/DialogTheme" >
+        </activity>
+    </application>
+
+</manifest>

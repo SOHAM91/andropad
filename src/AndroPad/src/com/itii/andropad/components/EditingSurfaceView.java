@@ -1,35 +1,30 @@
+/**
+ * AndroPad Project - ITII CNAM Alsace - Juin 2013
+ * Fabrice Latterner - Clement Troesch
+ */
+
 package com.itii.andropad.components;
 
-import java.util.Random;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 
 import com.itii.andropad.EditButtonActivity;
 import com.itii.andropad.EditingActivity;
 import com.itii.andropad.PadSettingsActivity;
 import com.itii.andropad.R;
-import com.itii.andropad.SelectPadActivity;
 import com.itii.andropad.pad.Button;
 import com.itii.andropad.pad.Pad;
-import com.larvalabs.svgandroid.SVGParser;
-
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Picture;
-import android.graphics.Rect;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.View.OnLongClickListener;
 
 public class EditingSurfaceView extends SurfaceView implements
 		SurfaceHolder.Callback, OnTouchListener, OnLongClickListener {
@@ -40,7 +35,8 @@ public class EditingSurfaceView extends SurfaceView implements
 		m_dragged = false;
 		m_activity = activity;
 		m_posX = m_posY = 0;
-		m_menuBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.menu);
+		m_menuBitmap = BitmapFactory.decodeResource(getResources(),
+				R.drawable.menu);
 		this.getHolder().addCallback(this);
 		this.setOnTouchListener(this);
 		this.setOnLongClickListener(this);
@@ -77,9 +73,9 @@ public class EditingSurfaceView extends SurfaceView implements
 			m_pad.pressButton(0, m_posX, m_posY);
 
 		} else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			int deltaX = Math.abs((int)m_posX-(int)oldPosX);
-			int deltaY = Math.abs((int)m_posY-(int)oldPosY);
-			if(deltaX > 2 || deltaY > 2)	//Sensitivity
+			int deltaX = Math.abs((int) m_posX - (int) oldPosX);
+			int deltaY = Math.abs((int) m_posY - (int) oldPosY);
+			if (deltaX > 2 || deltaY > 2) // Sensitivity
 			{
 				m_isSaved = false;
 				m_pad.dragging(m_posX, m_posY);
@@ -94,7 +90,7 @@ public class EditingSurfaceView extends SurfaceView implements
 
 	@Override
 	public boolean onLongClick(View view) {
-		Log.d("Long Click", "Long Click: "+m_dragged);
+		Log.d("Long Click", "Long Click: " + m_dragged);
 		m_isSaved = false;
 		if (m_pad.hasSelectedButton() && !m_dragged) {
 			Intent intent = new Intent(view.getContext(),
@@ -106,7 +102,8 @@ public class EditingSurfaceView extends SurfaceView implements
 			intent.putExtra("size", button.getSizeIndex());
 			intent.putExtra("mapping", button.getMappingIndex());
 
-			m_activity.startActivityForResult(intent, EditingActivity.s_SHOW_EDIT_BUTTON);
+			m_activity.startActivityForResult(intent,
+					EditingActivity.s_SHOW_EDIT_BUTTON);
 			return true;
 		} else if (!m_dragged) {
 			m_pad.createButton(m_posX, m_posY);
@@ -120,7 +117,8 @@ public class EditingSurfaceView extends SurfaceView implements
 			intent.putExtra("size", button.getSizeIndex());
 			intent.putExtra("mapping", button.getMappingIndex());
 
-			m_activity.startActivityForResult(intent, EditingActivity.s_SHOW_EDIT_BUTTON);
+			m_activity.startActivityForResult(intent,
+					EditingActivity.s_SHOW_EDIT_BUTTON);
 			return true;
 		}
 
@@ -147,23 +145,22 @@ public class EditingSurfaceView extends SurfaceView implements
 		canvas.drawRGB(220, 220, 220);
 		m_pad.draw(canvas);
 	}
-	
-	private void drawMenu(final Canvas canvas)
-	{
+
+	private void drawMenu(final Canvas canvas) {
 		Paint paint = new Paint();
-		paint.setAlpha(100);		
-		canvas.drawBitmap(m_menuBitmap, getWidth()-m_menuBitmap.getWidth(), getHeight()-m_menuBitmap.getHeight(), paint);
+		paint.setAlpha(100);
+		canvas.drawBitmap(m_menuBitmap, getWidth() - m_menuBitmap.getWidth(),
+				getHeight() - m_menuBitmap.getHeight(), paint);
 	}
-	
-	private boolean pressMenu()
-	{
-		boolean res = new Rect(this.getWidth()-m_menuBitmap.getWidth(), this.getHeight()-m_menuBitmap.getHeight(), this.getWidth(), this.getHeight())
-			.contains((int)m_posX, (int)m_posY);
-		if(res)
-		{
-			Intent intent = new Intent(m_activity,
-					PadSettingsActivity.class);
-			m_activity.startActivityForResult(intent, EditingActivity.s_SHOW_PAD_SETTINGS);
+
+	private boolean pressMenu() {
+		boolean res = new Rect(this.getWidth() - m_menuBitmap.getWidth(),
+				this.getHeight() - m_menuBitmap.getHeight(), this.getWidth(),
+				this.getHeight()).contains((int) m_posX, (int) m_posY);
+		if (res) {
+			Intent intent = new Intent(m_activity, PadSettingsActivity.class);
+			m_activity.startActivityForResult(intent,
+					EditingActivity.s_SHOW_PAD_SETTINGS);
 		}
 		return res;
 	}
@@ -178,12 +175,11 @@ public class EditingSurfaceView extends SurfaceView implements
 		m_pad.deleteSelectedButton();
 		this.requestRender();
 	}
-	
-	public void deletePad()
-	{
+
+	public void deletePad() {
 		m_pad.delete();
 	}
-	
+
 	public boolean isSaved() {
 		return m_isSaved;
 	}
@@ -194,6 +190,5 @@ public class EditingSurfaceView extends SurfaceView implements
 	private float m_posX, m_posY;
 	private boolean m_isSaved;
 	private Bitmap m_menuBitmap;
-	
 
 }

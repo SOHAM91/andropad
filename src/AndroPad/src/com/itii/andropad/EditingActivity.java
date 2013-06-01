@@ -1,17 +1,21 @@
+/**
+ * AndroPad Project - ITII CNAM Alsace - Juin 2013
+ * Fabrice Latterner - Clement Troesch
+ */
+
 package com.itii.andropad;
 
-import com.itii.andropad.components.EditingSurfaceView;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.itii.andropad.components.EditingSurfaceView;
 
 public class EditingActivity extends Activity {
 
@@ -26,16 +30,13 @@ public class EditingActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		m_surfaceView = new EditingSurfaceView(this, padName);
-		
-		
-		
+
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(m_surfaceView);
-		
-		
-		
+
 	}
 
 	@Override
@@ -64,8 +65,7 @@ public class EditingActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			if(requestCode == s_SHOW_EDIT_BUTTON)
-			{
+			if (requestCode == s_SHOW_EDIT_BUTTON) {
 				Bundle extras = data.getExtras();
 				String action = extras.getString("action");
 				if ("edit".equals(action)) {
@@ -76,26 +76,22 @@ public class EditingActivity extends Activity {
 				} else if ("delete".equals(action)) {
 					m_surfaceView.deleteButton();
 				}
-			}
-			else if(requestCode == s_SHOW_PAD_SETTINGS)
-			{
+			} else if (requestCode == s_SHOW_PAD_SETTINGS) {
 				Bundle extras = data.getExtras();
 				String action = extras.getString("action");
 				if ("save".equals(action)) {
 					m_surfaceView.savePad();
-				}
-				else if ("delete".equals(action)) {
+				} else if ("delete".equals(action)) {
 					this.delete();
-				}
-				else if ("exit".equals(action)) {
+				} else if ("exit".equals(action)) {
 					this.exit();
 				}
 			}
-			
+
 		}
 
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		exit();
