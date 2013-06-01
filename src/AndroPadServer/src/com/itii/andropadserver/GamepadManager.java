@@ -112,6 +112,6 @@ public class GamepadManager {
 		}
 	}
 
-	private static int s_NUMBER_OF_PADS = 3;
+	public static int s_NUMBER_OF_PADS = 3;
 
 }

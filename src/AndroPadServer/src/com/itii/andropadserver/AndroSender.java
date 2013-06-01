@@ -37,7 +37,8 @@ public class AndroSender extends Thread {
 				Thread.sleep(10);
 			} catch (Exception ex) {
 				// Close socket
-				ex.printStackTrace();
+				Logger.getLogger(AndroSender.class.getName()).log(Level.SEVERE,
+						null, ex);
 				m_run = false;
 			}
 		}
@@ -63,7 +64,8 @@ public class AndroSender extends Thread {
 			m_oos.writeObject(_obj);
 			System.out.println("send object");
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Logger.getLogger(AndroSender.class.getName()).log(Level.SEVERE,
+					null, ex);
 			m_run = false;
 		}
 	}

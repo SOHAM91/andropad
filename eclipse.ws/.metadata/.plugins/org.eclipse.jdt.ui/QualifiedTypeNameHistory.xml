@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="com.itii.andropadserver.AndroSender"/>
+<fullyQualifiedTypeName name="com.itii.andropadserver.ServerWindow"/>
+<fullyQualifiedTypeName name="com.itii.andropadserver.GamepadManager"/>
+</qualifiedTypeNameHistroy>

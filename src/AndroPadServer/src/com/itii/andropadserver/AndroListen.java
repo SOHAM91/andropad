@@ -49,6 +49,8 @@ public class AndroListen extends Thread {
 			} catch (Exception ex) {
 				// Close socket
 				m_run = false;
+//				Logger.getLogger(AndroListen.class.getName()).log(Level.SEVERE,
+//						null, ex);
 			}
 			try {
 				Thread.sleep(20);

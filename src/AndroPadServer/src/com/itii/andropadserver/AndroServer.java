@@ -40,6 +40,8 @@ public class AndroServer extends Thread {
 		try {
 			m_local.setDiscoverable(DiscoveryAgent.GIAC);
 		} catch (BluetoothStateException ex) {
+			Logger.getLogger(AndroServer.class.getName()).log(Level.SEVERE,
+					null, ex);
 		}
 		m_run = true;
 	}

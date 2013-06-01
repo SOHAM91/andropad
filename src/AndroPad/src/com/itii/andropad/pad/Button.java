@@ -14,6 +14,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Picture;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.itii.andropad.R;
 import com.itii.andropadcommon.AndroButton;
@@ -80,7 +81,7 @@ public class Button implements Serializable {
 			m_pad.sendButtonState(new AndroButton(
 					AndroButton.Mapping.values()[m_mappingIndex],
 					AndroButton.State.RELEASED));
-		} else if (pointerIndex == -1
+		} else if (m_pointerIndex == -1
 				&& m_positionRectangle.contains((int) posX, (int) posY)) {
 			m_pointerIndex = pointerIndex;
 			m_pad.sendButtonState(new AndroButton(
