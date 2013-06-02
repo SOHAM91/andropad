@@ -77,7 +77,7 @@ public class GamingActivity extends Activity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								if(m_connectThread != null)
+								if(m_connectThread)
 								{
 									m_connectThread.disconnect();
 								}
