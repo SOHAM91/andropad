@@ -54,6 +54,10 @@ public class GamingSurfaceView extends SurfaceView implements
 				|| mask == MotionEvent.ACTION_POINTER_UP) {
 			m_pad.releaseButton(pointerIndex, event.getX(pointerIndex),
 					event.getY(pointerIndex));
+			
+			if (event.getPointerCount() == 1) {
+				m_pad.resetButtonStates();
+			}
 		} else if (mask == MotionEvent.ACTION_DOWN
 				|| mask == MotionEvent.ACTION_POINTER_DOWN) {
 			m_pad.pressButton(pointerIndex, event.getX(pointerIndex),
@@ -64,9 +68,7 @@ public class GamingSurfaceView extends SurfaceView implements
 					event.getY(pointerIndex));
 		}
 
-		if (event.getPointerCount() == 0) {
-			m_pad.resetButtonStates();
-		}
+		
 
 		this.requestRender();
 		return true;

@@ -188,7 +188,8 @@ public class Pad implements Comparator<Button> {
 	public void moveFinger(int pointerIndex, float posX, float posY) {
 		boolean vibrate = false;
 		for (Button button : m_buttons) {
-			vibrate = vibrate || button.moveFinger(pointerIndex, posX, posY);
+			boolean v = button.moveFinger(pointerIndex, posX, posY);
+			vibrate = vibrate || v;
 		}
 		if (vibrate) {
 			Vibrator v = (Vibrator) m_context

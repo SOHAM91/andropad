@@ -64,7 +64,7 @@ public class ServerWindow extends javax.swing.JFrame {
 
 		StopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/com/itii/andropadserver/resources/stop.png"))); // NOI18N
-		StopButton.setText("Arrï¿½ter le serveur");
+		StopButton.setText("Arrêter le serveur");
 		StopButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				StopButtonActionPerformed(evt);
@@ -149,7 +149,7 @@ public class ServerWindow extends javax.swing.JFrame {
 			m_observerList = new ArrayList<ObserverThread>();
 			for(int i=0; i < GamepadManager.s_NUMBER_OF_PADS; ++i)
 			{
-				m_observerList.add(new ObserverThread(i, 100));
+				m_observerList.add(new ObserverThread(i, 250));
 				m_observerList.get(i).start();
 				GamepadManager.getInstance().observeGamepad(i,
 						m_observerList.get(i));
