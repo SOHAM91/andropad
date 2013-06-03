@@ -23,6 +23,7 @@ public class AndroServer extends Thread {
 	private UUID m_uuid;
 	private String m_connectionString;
 	private boolean m_run;
+        private StreamConnectionNotifier m_streamConnNotifier;
 
 	private HashMap<Integer, AndroListen> m_listeners = new HashMap<Integer, AndroListen>();
 	private HashMap<Integer, AndroSender> m_senders = new HashMap<Integer, AndroSender>();
@@ -50,21 +51,17 @@ public class AndroServer extends Thread {
 	public void run() {
 		try {
 			// open server url
-			OutputController
-					.writeLine(
-							"Serveur démarré. En attente des connexions des clients...",
-							OutputController.MessageLevel.SERVER_STATE);
-			StreamConnectionNotifier streamConnNotifier = (StreamConnectionNotifier) Connector
-					.open(m_connectionString);
+			OutputController.writeLine("Serveur dÃ©marrÃ©. En attente des connexions des clients...",OutputController.MessageLevel.SERVER_STATE);
+                        m_streamConnNotifier = (StreamConnectionNotifier) Connector.open(m_connectionString);
 			// Wait for client connection
 			while (m_run) {
 				if (GamepadManager.getInstance().getNbGamepad() > GamepadManager
 						.getInstance().getNbActive()) {
-					OutputController.writeLine("Nombre de joueurs connectés : "
+					OutputController.writeLine("Nombre de joueurs connectÃ©s : "
 							+ GamepadManager.getInstance().getNbActive(),
 							OutputController.MessageLevel.SERVER_INFO);
 
-					StreamConnection connection = streamConnNotifier
+					StreamConnection connection = m_streamConnNotifier
 							.acceptAndOpen();
 					// Create thread to communicate with the client, and pass it
 					// to the GamepadManager
@@ -93,7 +90,7 @@ public class AndroServer extends Thread {
 				}
 			}
 			// close server
-			streamConnNotifier.close();
+			m_streamConnNotifier.close();
 		} catch (IOException ex) {
 			Logger.getLogger(AndroServer.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -114,14 +111,18 @@ public class AndroServer extends Thread {
 					as.close();
 				}
 			}
-		}
-		m_run = run;
-		try {
-			m_local.setDiscoverable(DiscoveryAgent.NOT_DISCOVERABLE);
-		} catch (BluetoothStateException ex) {
-			Logger.getLogger(AndroServer.class.getName()).log(Level.SEVERE,
+                        try {
+                            m_local.setDiscoverable(DiscoveryAgent.NOT_DISCOVERABLE);
+                            m_streamConnNotifier.close();
+                            this.interrupt();
+                        } catch (Exception ex) {
+                            Logger.getLogger(AndroServer.class.getName()).log(Level.SEVERE,
 					null, ex);
 		}
+                        
+		}
+		m_run = run;
+		
 
 	}
 

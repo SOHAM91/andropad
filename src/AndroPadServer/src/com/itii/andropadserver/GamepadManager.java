@@ -97,13 +97,15 @@ public class GamepadManager {
 			// Launch the connection manager
 			m_androServer = new AndroServer();
 			m_androServer.start();
+                        m_run = true;
 		}
 	}
 
 	public void stop() {
 		m_androServer.setRun(false);
-		OutputController.writeLine("Arrêt du serveur",
+		OutputController.writeLine("ArrÃªt du serveur",
 				OutputController.MessageLevel.SERVER_STATE);
+                m_run = false;
 	}
 
 	public void sendObject(int _index, Object _obj) {
