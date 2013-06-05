@@ -53,12 +53,6 @@ public class AndroListen extends Thread {
 //						null, ex);
 			}
                         
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException ex) {
-				Logger.getLogger(AndroListen.class.getName()).log(Level.SEVERE,
-						null, ex);
-			}
 		}
 		close();
 	}
@@ -68,7 +62,7 @@ public class AndroListen extends Thread {
 			GamepadManager.getInstance().getPad(m_gamepadIndex).setConnected(false);
 			m_inStream.close();
 			m_sc.close();
-			OutputController.writeLine("DÃ©connexion du pad " + m_gamepadIndex,
+			OutputController.writeLine("Déconnexion du pad " + m_gamepadIndex,
 					OutputController.MessageLevel.SERVER_INFO);
                         this.interrupt();
 		} catch (BluetoothStateException ex) {

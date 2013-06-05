@@ -139,6 +139,12 @@ public class Button implements Serializable {
 	}
 
 	public void resetState() {
+		if(m_pointerIndex != -1)
+		{
+			m_pad.sendButtonState(new AndroButton(
+				AndroButton.Mapping.values()[m_mappingIndex],
+				AndroButton.State.RELEASED));
+		}
 		m_pointerIndex = -1;
 	}
 

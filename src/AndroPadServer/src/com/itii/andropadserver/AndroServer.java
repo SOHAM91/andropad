@@ -51,13 +51,13 @@ public class AndroServer extends Thread {
 	public void run() {
 		try {
 			// open server url
-			OutputController.writeLine("Serveur dÃ©marrÃ©. En attente des connexions des clients...",OutputController.MessageLevel.SERVER_STATE);
+			OutputController.writeLine("Serveur démarré. En attente des connexions des clients...",OutputController.MessageLevel.SERVER_STATE);
                         m_streamConnNotifier = (StreamConnectionNotifier) Connector.open(m_connectionString);
 			// Wait for client connection
 			while (m_run) {
 				if (GamepadManager.getInstance().getNbGamepad() > GamepadManager
 						.getInstance().getNbActive()) {
-					OutputController.writeLine("Nombre de joueurs connectÃ©s : "
+					OutputController.writeLine("Nombre de joueurs connectés : "
 							+ GamepadManager.getInstance().getNbActive(),
 							OutputController.MessageLevel.SERVER_INFO);
 

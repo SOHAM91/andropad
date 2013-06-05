@@ -103,7 +103,7 @@ public class GamepadManager {
 
 	public void stop() {
 		m_androServer.setRun(false);
-		OutputController.writeLine("ArrÃªt du serveur",
+		OutputController.writeLine("Arrêt du serveur",
 				OutputController.MessageLevel.SERVER_STATE);
                 m_run = false;
 	}
